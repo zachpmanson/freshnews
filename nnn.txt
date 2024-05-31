@@ -1,11 +1,56 @@
 GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1709002648&s=feed/2 HTTP/1.1" 200 
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1709002648&s=feed/2 HTTP/1.1" 200 176 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1709072181&s=feed/3 HTTP/1.1" 200 86 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1709093593&s=feed/4 HTTP/1.1" 200 176 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1709176803&s=user/-/state/com.google/reading-list HTTP/1.1" 200 248 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1709176834&s=user/-/state/com.google/reading-list HTTP/1.1" 200 248 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
 GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1716733600&s=user/-/state/com.google/reading-list HTTP/1.1" 200 
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1716733600&s=user/-/state/com.google/reading-list HTTP/1.1" 200 16 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1716733600&s=user/-/state/com.google/reading-list HTTP/1.1" 200 185 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
 GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1716782842&s=user/-/state/com.google/reading-list HTTP/1.1" 200 
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1716782842&s=user/-/state/com.google/reading-list HTTP/1.1" 200 16 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1716782842&s=user/-/state/com.google/reading-list HTTP/1.1" 200 176 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1716875184&s=user/-/state/com.google/reading-list HTTP/1.1" 200 16 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1716875184&s=user/-/state/com.google/reading-list HTTP/1.1" 200 41 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1717025907&s=user/-/state/com.google/reading-list HTTP/1.1" 200 16 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1717025907&s=user/-/state/com.google/reading-list HTTP/1.1" 200 67 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1717118895&s=user/-/state/com.google/reading-list HTTP/1.1" 200 16 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&ot=1717118895&s=user/-/state/com.google/reading-list HTTP/1.1" 200 67 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
 GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/reading-list&xt=user/-/state/com.google/read HTTP/1.1" 200
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/reading-list&xt=user/-/state/com.google/read HTTP/1.1" 200 16 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/reading-list&xt=user/-/state/com.google/read HTTP/1.1" 200 167 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/reading-list&xt=user/-/state/com.google/read HTTP/1.1" 200 171 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/reading-list&xt=user/-/state/com.google/read HTTP/1.1" 200 176 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/reading-list&xt=user/-/state/com.google/read HTTP/1.1" 200 185 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/reading-list&xt=user/-/state/com.google/read HTTP/1.1" 200 186 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/reading-list&xt=user/-/state/com.google/read HTTP/1.1" 200 192 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/reading-list&xt=user/-/state/com.google/read HTTP/1.1" 200 199 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/reading-list&xt=user/-/state/com.google/read HTTP/1.1" 200 208 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
 GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/starred HTTP/1.1" 200 
+GET /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/starred HTTP/1.1" 200 16 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
 GET /api/greader.php/reader/api/0/subscription/list?output=json HTTP/1.1" 200 
+GET /api/greader.php/reader/api/0/subscription/list?output=json HTTP/1.1" 200 185 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/subscription/list?output=json HTTP/1.1" 200 240 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/subscription/list?output=json HTTP/1.1" 200 241 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/subscription/list?output=json HTTP/1.1" 200 251 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/subscription/list?output=json HTTP/1.1" 200 297 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
 GET /api/greader.php/reader/api/0/tag/list?output=json HTTP/1.1" 200 
+GET /api/greader.php/reader/api/0/tag/list?output=json HTTP/1.1" 200 96 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+GET /api/greader.php/reader/api/0/token HTTP/1.1" 200 58 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+POST /api/greader.php/accounts/ClientLogin HTTP/1.1" 200 111 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
 POST /api/greader.php/reader/api/0/edit-tag HTTP/1.1" 200 
+POST /api/greader.php/reader/api/0/edit-tag HTTP/1.1" 200 2 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
 POST /api/greader.php/reader/api/0/stream/items/contents HTTP/1.1" 200 
+POST /api/greader.php/reader/api/0/stream/items/contents HTTP/1.1" 200 1013 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+POST /api/greader.php/reader/api/0/stream/items/contents HTTP/1.1" 200 1903 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+POST /api/greader.php/reader/api/0/stream/items/contents HTTP/1.1" 200 28871 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+POST /api/greader.php/reader/api/0/stream/items/contents HTTP/1.1" 200 2962 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+POST /api/greader.php/reader/api/0/stream/items/contents HTTP/1.1" 200 4963 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+POST /api/greader.php/reader/api/0/stream/items/contents HTTP/1.1" 200 58634 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+POST /api/greader.php/reader/api/0/stream/items/contents HTTP/1.1" 200 59528 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+POST /api/greader.php/reader/api/0/stream/items/contents HTTP/1.1" 200 89558 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
 POST /api/greader.php/reader/api/0/subscription/edit HTTP/1.1" 200 
+POST /api/greader.php/reader/api/0/subscription/edit HTTP/1.1" 200 2 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
+POST /api/greader.php/reader/api/0/subscription/edit HTTP/1.1" 400 12 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
 POST /api/greader.php/reader/api/0/subscription/quickadd HTTP/1.1" 200 
+POST /api/greader.php/reader/api/0/subscription/quickadd HTTP/1.1" 200 116 "-" "NetNewsWire (RSS Reader; https://netnewswire.com/)
