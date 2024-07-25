@@ -1,0 +1,21 @@
+meta {
+  name: nc items
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/items
+  body: none
+  auth: basic
+}
+
+headers {
+  Accept: application/json
+  ~Content-Type: application/json; charset=utf-8
+}
+
+auth:basic {
+  username: admin
+  password: 199bc1668ef36c69ac5ee39aeceac4a861ea3c5a36a742dd
+}

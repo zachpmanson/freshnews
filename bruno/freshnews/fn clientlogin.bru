@@ -1,0 +1,21 @@
+meta {
+  name: fn clientlogin
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{fnBaseUrl}}/accounts/ClientLogin?Passwd=password&Email=zach
+  body: none
+  auth: none
+}
+
+params:query {
+  Passwd: password
+  Email: zach
+  ~Email: test@example.com
+}
+
+headers {
+  Authorization: GoogleLogin: zach/5a20ccae76197bcff2ed3f7d66ee104165b15431
+}

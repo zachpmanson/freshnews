@@ -20,13 +20,13 @@ func notImplemented(w http.ResponseWriter, r *http.Request) {
 }
 
 func getClientLogin(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("got /api/greader.php/accounts/ClientLogin request\n")
 	// read email and passwd from request query params
 	email := r.URL.Query().Get("Email")
 	passwd := r.URL.Query().Get("Passwd")
 
+	fmt.Println("got /api/greader.php/accounts/ClientLogin request", email, passwd)
 	// check if email and passwd are valid
-	if email == "test@example.com" && passwd == "password" {
+	if email == "zach" && passwd == "password" {
 		// if valid, return a valid token
 		io.WriteString(w, "SID=zach/{some id code}\nLSID=null\nAuth=zach/{some id code}")
 	}
@@ -47,50 +47,6 @@ func getTagList(w http.ResponseWriter, r *http.Request) {
 		  { "id": "user/-/label/m", "type": "folder" }
 		]
 	  }`)
-}
-
-// /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/reading-list&xt=user/-/state/com.google/read
-func getStreamItemsIds(w http.ResponseWriter, r *http.Request) {
-	// excludeTarget := r.URL.Query().Get("xt") // exclude target
-	// filterTarget := r.URL.Query().Get("it")  // include target
-
-	// count := 20
-	// if r.URL.Query().Get("n") != "" {
-	// 	n, err := strconv.Atoi(r.URL.Query().Get("n"))
-	// 	if err != nil {
-	// 		count = 20
-	// 	}
-	// }
-
-	// order := r.URL.Query().Get("r") //  d|n|o, o ascending, n descending, d descending
-
-	// startTime := 0 // unix timestamp
-	// if r.URL.Query().Get("ot") != "" {
-	// 	ot, err := strconv.Atoi(r.URL.Query().Get("ot"))
-	// 	if err != nil {
-	// 		startTime = ot
-	// 	}
-	// }
-
-	// endTime := 0 // unix timestamp
-	// if r.URL.Query().Get("et") != "" {
-	// 	et, err := strconv.Atoi(r.URL.Query().Get("et"))
-	// 	if err != nil {
-	// 		endTime = et
-	// 	}
-	// }
-
-	// continuationToken := r.URL.Query().Get("c") // used to get next page if exists
-
-	// streamIdInfos := r.URL.Query().Get("s")
-	// outputFormat := r.URL.Query().Get("output")
-	// if outputFormat != "json" {
-	// 	notImplemented(w, r)
-	// 	return
-	// }
-
-	// io.WriteString(w, `{"itemRefs":[{"id":"1716782248776926"},{"id":"1716782248776925"}`)
-
 }
 
 func getStreamItemContents(w http.ResponseWriter, r *http.Request) {
@@ -178,8 +134,8 @@ func main() {
 
 	// have seen netnewswire use
 	http.HandleFunc("/api/greader.php/accounts/ClientLogin", getClientLogin)
-	http.HandleFunc("/api/greader.php/reader/api/0/stream/items/ids", getStreamItemsIds)
-	http.HandleFunc("/api/greader.php/reader/api/0/subscription/list", GetSubscriptionsList)
+	http.HandleFunc("/api/greader.php/reader/api/0/stream/items/ids", GetStreamItemsIds)
+	http.HandleFunc("/api/greader.php/reader/api/0/subscription/list", GetSubscriptionsList) // done maybe?
 	http.HandleFunc("/api/greader.php/reader/api/0/subscription/edit", getRoot)
 	http.HandleFunc("/api/greader.php/reader/api/0/subscription/quickadd", getRoot)
 	http.HandleFunc("/api/greader.php/reader/api/0/stream/items/contents", getStreamItemContents)

@@ -1,0 +1,21 @@
+meta {
+  name: nc sync
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/feeds
+  body: none
+  auth: basic
+}
+
+headers {
+  Accept: application/json
+  ~Content-Type: application/json; charset=utf-8
+}
+
+auth:basic {
+  username: admin
+  password: 199bc1668ef36c69ac5ee39aeceac4a861ea3c5a36a742dd
+}

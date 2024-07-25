@@ -1,0 +1,17 @@
+meta {
+  name: fr clientlogin
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{frUrl}}/accounts/ClientLogin?Passwd=password&Email=zach
+  body: none
+  auth: none
+}
+
+params:query {
+  Passwd: password
+  Email: zach
+  ~Email: test@example.com
+}

@@ -8,12 +8,12 @@ import (
 	"strconv"
 )
 
-type Item struct {
+type item struct {
 	// Define the fields for the items if there are any
 	// Leaving it empty since the provided JSON shows an empty array
 }
 
-type NCFeed struct {
+type ncFeed struct {
 	ID               int         `json:"id"`
 	URL              string      `json:"url"`
 	Title            string      `json:"title"`
@@ -26,42 +26,42 @@ type NCFeed struct {
 	Pinned           bool        `json:"pinned"`
 	UpdateErrorCount int         `json:"updateErrorCount"`
 	LastUpdateError  interface{} `json:"lastUpdateError"`
-	Items            []Item      `json:"items"`
+	Items            []item      `json:"items"`
 }
 
-type NCFeedResponse struct {
+type ncFeedResponse struct {
 	StarredCount int      `json:"starredCount"`
-	Feeds        []NCFeed `json:"feeds"`
+	Feeds        []ncFeed `json:"feeds"`
 	NewestItemID int      `json:"newestItemId"`
 }
 
-type Category struct {
+type category struct {
 	ID    string `json:"id"`
 	Label string `json:"label"`
 }
 
 // Define the structs
-type FRSubscription struct {
+type frSubscription struct {
 	ID         string     `json:"id"`
 	Title      string     `json:"title"`
-	Categories []Category `json:"categories"`
+	Categories []category `json:"categories"`
 	URL        string     `json:"url"`
 	HTMLUrl    string     `json:"htmlUrl"`
 	IconUrl    string     `json:"iconUrl"`
 }
 
-type FRResponse struct {
-	Subscriptions []FRSubscription `json:"subscriptions"`
+type frFeedResponse struct {
+	Subscriptions []frSubscription `json:"subscriptions"`
 }
 
-func getNCFeeds() ([]NCFeed, error) {
+func getNCFeeds() ([]ncFeed, error) {
 	client := http.Client{}
 	req, err := http.NewRequest("GET", BaseUrl+"/feeds", nil)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
-
+	fmt.Println("Auth", "Basic", Credentials)
 	req.Header = http.Header{
 		"Content-Type":  {"application/json"},
 		"Authorization": {"Basic " + Credentials},
@@ -78,7 +78,7 @@ func getNCFeeds() ([]NCFeed, error) {
 		return nil, err
 	}
 
-	var ncResponse NCFeedResponse
+	var ncResponse ncFeedResponse
 	err = json.Unmarshal(resBody, &ncResponse)
 	if err != nil {
 		fmt.Println(err)
@@ -88,23 +88,23 @@ func getNCFeeds() ([]NCFeed, error) {
 	return ncResponse.Feeds, nil
 }
 
-type Folder struct {
+type folder struct {
 	ID     int    `json:"id"`
 	Name   string `json:"name"`
 	Opened bool   `json:"opened"`
-	Feeds  []Feed `json:"feeds"`
+	Feeds  []feed `json:"feeds"`
 }
 
-type Feed struct {
+type feed struct {
 	// Define the fields for the feeds if there are any
 	// Leaving it empty since the provided JSON shows an empty array
 }
 
-type NCFolderReponse struct {
-	Folders []Folder `json:"folders"`
+type ncFolderReponse struct {
+	Folders []folder `json:"folders"`
 }
 
-func getNCFolders() ([]Folder, error) {
+func getNCFolders() ([]folder, error) {
 	client := http.Client{}
 	req, err := http.NewRequest("GET", BaseUrl+"/folders", nil)
 	if err != nil {
@@ -128,7 +128,7 @@ func getNCFolders() ([]Folder, error) {
 		return nil, err
 	}
 
-	var ncResponse NCFolderReponse
+	var ncResponse ncFolderReponse
 	err = json.Unmarshal(resBody, &ncResponse)
 	if err != nil {
 		fmt.Println(err)
@@ -141,51 +141,53 @@ func getNCFolders() ([]Folder, error) {
 func GetSubscriptionsList(w http.ResponseWriter, r *http.Request) {
 
 	// if output=json set
-	if r.URL.Query().Get("output") == "json" {
-		// if output=json, return json
-		fmt.Println("Getting NC Feeds")
-		ncFeeds, err := getNCFeeds()
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		fmt.Println("Getting NC Folders")
-		ncFolders, err := getNCFolders()
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		folderMap := make(map[int]string)
-		for _, folder := range ncFolders {
-			folderMap[folder.ID] = folder.Name
-		}
-
-		response := FRResponse{}
-
-		for _, subscription := range ncFeeds {
-			response.Subscriptions = append(response.Subscriptions, FRSubscription{
-				ID:    strconv.Itoa(subscription.ID),
-				Title: subscription.Title,
-				Categories: []Category{
-					{ID: "user/-/label/" + folderMap[subscription.FolderID], Label: folderMap[subscription.FolderID]},
-				},
-				URL:     subscription.URL,
-				HTMLUrl: subscription.URL,
-				IconUrl: subscription.FaviconLink,
-			})
-		}
-
-		jsonResponse, err := json.Marshal(response)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		io.WriteString(w, string(jsonResponse))
-		return
-	} else {
+	if r.URL.Query().Get("output") != "json" {
 		notImplemented(w, r)
+		return
 	}
 
+	fmt.Println("Getting NC Feeds")
+	ncFeeds, err := getNCFeeds()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	fmt.Println("Got NC Feeds", len(ncFeeds))
+
+	fmt.Println("Getting NC Folders")
+	ncFolders, err := getNCFolders()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	fmt.Println("Got NC Folders", len(ncFolders))
+
+	folderMap := make(map[int]string)
+	for _, folder := range ncFolders {
+		folderMap[folder.ID] = folder.Name
+	}
+
+	response := frFeedResponse{}
+
+	for _, subscription := range ncFeeds {
+		response.Subscriptions = append(response.Subscriptions, frSubscription{
+			ID:    strconv.Itoa(subscription.ID),
+			Title: subscription.Title,
+			Categories: []category{
+				{ID: "user/-/label/" + folderMap[subscription.FolderID], Label: folderMap[subscription.FolderID]},
+			},
+			URL:     subscription.URL,
+			HTMLUrl: subscription.URL,
+			IconUrl: subscription.FaviconLink,
+		})
+	}
+
+	jsonResponse, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	println("Returning subscriptions " + string(jsonResponse))
+	io.WriteString(w, string(jsonResponse))
 }

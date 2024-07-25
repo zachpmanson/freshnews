@@ -1,0 +1,15 @@
+meta {
+  name: fn subscriptions
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{fnBaseUrl}}/reader/api/0/subscription/list?output=json
+  body: none
+  auth: none
+}
+
+params:query {
+  output: json
+}
