@@ -1,11 +1,11 @@
 meta {
-  name: fn items
+  name: fn ids 
   type: http
   seq: 3
 }
 
 get {
-  url: {{fnBaseUrl}}/reader/api/0/stream/items/ids?output=json&s=user/-/state/com.google/reading-list&n=1000
+  url: {{fnUrl}}/reader/api/0/stream/items/ids?output=json&s=user/-/state/com.google/reading-list&n=1000
   body: none
   auth: none
 }

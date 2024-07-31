@@ -88,13 +88,25 @@ type frItemsResponse struct {
 	Items []frItem `json:"itemRefs"`
 }
 
-func getNCItems(count int) ([]ncItem, error) {
+func getNCItems(count int, since int, ignoreRead bool) ([]ncItem, error) {
 	client := http.Client{}
-	req, err := http.NewRequest("GET", BaseUrl+"/items?batchSize="+strconv.Itoa(count), nil)
+
+	urlStr := BaseUrl
+	if since == 0 {
+		urlStr += "/items?batchSize=" + strconv.Itoa(count)
+		if ignoreRead {
+			urlStr += "&getRead=false"
+		}
+	} else {
+		urlStr += "/items/updated?lastModified=" + strconv.Itoa(since)
+	}
+
+	req, err := http.NewRequest("GET", urlStr, nil)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
+
 	fmt.Println("Auth", "Basic", Credentials)
 	req.Header = http.Header{
 		"Content-Type":  {"application/json"},
@@ -119,7 +131,12 @@ func getNCItems(count int) ([]ncItem, error) {
 		return nil, err
 	}
 
-	return ncResponse.Items, nil
+	items := ncResponse.Items
+	if len(items) > count {
+		items = items[:count]
+	}
+
+	return items, nil
 }
 
 // e.g. /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/reading-list&xt=user/-/state/com.google/read
@@ -132,7 +149,9 @@ func GetStreamItemsIds(w http.ResponseWriter, r *http.Request) {
 
 	// https://github.com/theoldreader/api?tab=readme-ov-file#items
 
-	// excludeTarget := r.URL.Query().Get("xt") // exclude target
+	excludeTarget := r.URL.Query().Get("xt") // exclude target
+	ignoreRead := excludeTarget == "user/-/state/com.google/read"
+
 	// filterTarget := r.URL.Query().Get("it")  // include target (not used by NNN)
 
 	count := 20
@@ -147,14 +166,14 @@ func GetStreamItemsIds(w http.ResponseWriter, r *http.Request) {
 
 	// order := r.URL.Query().Get("r") //  d|n|o, o ascending, n descending, d descending
 
-	// These two are not used by NNN
-	// startTime := 0 // unix timestamp
-	// if r.URL.Query().Get("ot") != "" {
-	// 	ot, err := strconv.Atoi(r.URL.Query().Get("ot"))
-	// 	if err != nil {
-	// 		startTime = ot
-	// 	}
-	// }
+	startTime := 0 // unix timestamp
+	if r.URL.Query().Get("ot") != "" {
+		ot, err := strconv.Atoi(r.URL.Query().Get("ot"))
+		if err != nil {
+			startTime = ot
+		}
+	}
+	// This is not used by NNN
 	// endTime := 0 // unix timestamp
 	// if r.URL.Query().Get("et") != "" {
 	// 	et, err := strconv.Atoi(r.URL.Query().Get("et"))
@@ -168,7 +187,7 @@ func GetStreamItemsIds(w http.ResponseWriter, r *http.Request) {
 	streamIdInfos := r.URL.Query().Get("s") // this appears to only be reading-list or starred
 	ncItems := []ncItem{}
 	if streamIdInfos == "user/-/state/com.google/reading-list" {
-		items, err := getNCItems(count)
+		items, err := getNCItems(count, startTime, ignoreRead)
 		ncItems = items
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

@@ -1,0 +1,27 @@
+meta {
+  name: nc items since
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/items/updated?lastModified=1722388950&type=3&id=0
+  body: none
+  auth: basic
+}
+
+params:query {
+  lastModified: 1722388950
+  type: 3
+  id: 0
+}
+
+headers {
+  Accept: application/json
+  ~Content-Type: application/json; charset=utf-8
+}
+
+auth:basic {
+  username: admin
+  password: 199bc1668ef36c69ac5ee39aeceac4a861ea3c5a36a742dd
+}

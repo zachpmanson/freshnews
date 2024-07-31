@@ -1,0 +1,18 @@
+meta {
+  name: fn ids since
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{fnUrl}}/reader/api/0/stream/items/ids?output=json&s=user/-/state/com.google/reading-list&n=1000&ot=1709176803
+  body: none
+  auth: none
+}
+
+params:query {
+  output: json
+  s: user/-/state/com.google/reading-list
+  n: 1000
+  ot: 1709176803
+}

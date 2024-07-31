@@ -1,0 +1,22 @@
+meta {
+  name: fr ids starred
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{frUrl}}/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/starred
+  body: none
+  auth: none
+}
+
+params:query {
+  n: 1000
+  output: json
+  s: user/-/state/com.google/starred
+  ~xt: user/-/state/com.google/read
+}
+
+headers {
+  Authorization: GoogleLogin auth={{frAuth}}
+}
