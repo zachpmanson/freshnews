@@ -4,6 +4,7 @@ import (
 	"io"
 	"net/http"
 )
+
 func GetStreamItemContents(w http.ResponseWriter, r *http.Request) {
 	// only post
 	if r.Method != "POST" {

@@ -89,43 +89,23 @@ type frItemsResponse struct {
 }
 
 func getNCItems(count int, since int, ignoreRead bool) ([]ncItem, error) {
-	client := http.Client{}
-
-	urlStr := BaseUrl
+	path := ""
 	if since == 0 {
-		urlStr += "/items?batchSize=" + strconv.Itoa(count)
+		path += "/items?batchSize=" + strconv.Itoa(count)
 		if ignoreRead {
-			urlStr += "&getRead=false"
+			path += "&getRead=false"
 		}
 	} else {
-		urlStr += "/items/updated?lastModified=" + strconv.Itoa(since)
+		path += "/items/updated?lastModified=" + strconv.Itoa(since)
 	}
 
-	req, err := http.NewRequest("GET", urlStr, nil)
+	res, err := NcGetReq(path)
 	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-
-	fmt.Println("Auth", "Basic", Credentials)
-	req.Header = http.Header{
-		"Content-Type":  {"application/json"},
-		"Authorization": {"Basic " + Credentials},
-	}
-
-	res, err := client.Do(req)
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-	resBody, err := io.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
 		return nil, err
 	}
 
 	var ncResponse ncItemResponse
-	err = json.Unmarshal(resBody, &ncResponse)
+	err = json.Unmarshal(res, &ncResponse)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
@@ -186,23 +166,27 @@ func GetStreamItemsIds(w http.ResponseWriter, r *http.Request) {
 
 	streamIdInfos := r.URL.Query().Get("s") // this appears to only be reading-list or starred
 	ncItems := []ncItem{}
-	if streamIdInfos == "user/-/state/com.google/reading-list" {
+	switch streamIdInfos {
+	case "user/-/state/com.google/reading-list":
 		items, err := getNCItems(count, startTime, ignoreRead)
-		ncItems = items
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		ncItems = items
 		fmt.Println("Got NC Items", len(ncItems))
-
-	} else if streamIdInfos == "user/-/state/com.google/starred" {
-
+	case "user/-/state/com.google/starred":
+		// TODO
+	default:
+		notImplemented(w, r)
+		return
 	}
+
 	fmt.Println("Returning NC Items", len(ncItems))
 	response := frItemsResponse{}
 
 	for _, ncItem := range ncItems {
-		fmt.Println("NC Item", ncItem.ID)
+		// fmt.Println("NC Item", ncItem.ID)
 		response.Items = append(response.Items, frItem{
 			ID: strconv.Itoa(ncItem.ID),
 		})
@@ -214,6 +198,6 @@ func GetStreamItemsIds(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	println("Returning", string(jsonResponse))
-	io.WriteString(w, string(jsonResponse))
+	fmt.Println("Returning", CapString(jsonResponse, 500))
+	io.Writer.Write(w, jsonResponse)
 }

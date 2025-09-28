@@ -55,24 +55,7 @@ type frFeedResponse struct {
 }
 
 func getNCFeeds() ([]ncFeed, error) {
-	client := http.Client{}
-	req, err := http.NewRequest("GET", BaseUrl+"/feeds", nil)
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-	fmt.Println("Auth", "Basic", Credentials)
-	req.Header = http.Header{
-		"Content-Type":  {"application/json"},
-		"Authorization": {"Basic " + Credentials},
-	}
-
-	res, err := client.Do(req)
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-	resBody, err := io.ReadAll(res.Body)
+	resBody, err := NcGetReq("/feeds")
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
@@ -84,6 +67,7 @@ func getNCFeeds() ([]ncFeed, error) {
 		fmt.Println(err)
 		return nil, err
 	}
+	fmt.Println("NC Feeds:", len(ncResponse.Feeds))
 
 	return ncResponse.Feeds, nil
 }
@@ -105,24 +89,8 @@ type ncFolderReponse struct {
 }
 
 func getNCFolders() ([]folder, error) {
-	client := http.Client{}
-	req, err := http.NewRequest("GET", BaseUrl+"/folders", nil)
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
 
-	req.Header = http.Header{
-		"Authorization": {"Basic " + Credentials},
-		"Content-Type":  {"application/json"},
-	}
-
-	res, err := client.Do(req)
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-	resBody, err := io.ReadAll(res.Body)
+	resBody, err := NcGetReq("/folders")
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
