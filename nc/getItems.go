@@ -34,7 +34,7 @@ type NcItemResponse struct {
 	Items []NcItem `json:"items"`
 }
 
-func GetNCItems(count int, since int, ignoreRead bool) ([]NcItem, error) {
+func GetItems(count int, since int, ignoreRead bool) ([]NcItem, error) {
 	path := ""
 	if since == 0 {
 		path += "/items?"

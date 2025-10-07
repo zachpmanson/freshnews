@@ -28,40 +28,6 @@ type frFeedResponse struct {
 	Subscriptions []frSubscription `json:"subscriptions"`
 }
 
-type folder struct {
-	ID     int    `json:"id"`
-	Name   string `json:"name"`
-	Opened bool   `json:"opened"`
-	Feeds  []feed `json:"feeds"`
-}
-
-type feed struct {
-	// Define the fields for the feeds if there are any
-	// Leaving it empty since the provided JSON shows an empty array
-}
-
-type ncFolderReponse struct {
-	Folders []folder `json:"folders"`
-}
-
-func getNCFolders() ([]folder, error) {
-
-	resBody, err := utils.NcGetReq("/folders")
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-
-	var ncResponse ncFolderReponse
-	err = json.Unmarshal(resBody, &ncResponse)
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-
-	return ncResponse.Folders, nil
-}
-
 func GetSubscriptionsList(w http.ResponseWriter, r *http.Request) {
 
 	// if output=json set
@@ -79,7 +45,7 @@ func GetSubscriptionsList(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Got NC Feeds", len(ncFeeds))
 
 	fmt.Println("Getting NC Folders")
-	ncFolders, err := getNCFolders()
+	ncFolders, err := nc.GetFolders()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

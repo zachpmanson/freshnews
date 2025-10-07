@@ -111,7 +111,7 @@ func GetStreamItemsIds(w http.ResponseWriter, r *http.Request) {
 	ncItems := []nc.NcItem{}
 	switch streamIdInfos {
 	case "user/-/state/com.google/reading-list":
-		items, err := nc.GetNCItems(count, startTime, ignoreRead)
+		items, err := nc.GetItems(count, startTime, ignoreRead)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

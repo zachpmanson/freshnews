@@ -50,7 +50,7 @@ func GetStreamItemContents(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	feedItems, err := nc.GetNCItems(-1, 0, false)
+	feedItems, err := nc.GetItems(-1, 0, false)
 	if err != nil {
 		utils.WriteError(w, err, 500)
 		return
