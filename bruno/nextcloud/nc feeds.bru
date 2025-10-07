@@ -1,0 +1,20 @@
+meta {
+  name: nc feeds
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/feeds
+  body: none
+  auth: basic
+}
+
+auth:basic {
+  username: admin
+  password: 199bc1668ef36c69ac5ee39aeceac4a861ea3c5a36a742dd
+}
+
+settings {
+  encodeUrl: true
+}

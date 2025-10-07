@@ -1,4 +1,4 @@
-package main
+package handlers
 
 import (
 	"io"
@@ -12,7 +12,7 @@ func GetTagList(w http.ResponseWriter, r *http.Request) {
 		io.WriteString(w, `{"tags":[{"id":"/user/zach","title":"My News Feed"}]}`)
 		return
 	} else {
-		notImplemented(w, r)
+		NotImplemented(w, r)
 	}
 	io.WriteString(w, `{
 		"tags": [

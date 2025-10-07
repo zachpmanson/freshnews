@@ -13,3 +13,4 @@ To use:
 - **nextcloud news api -> [freshrss greader api](https://freshrss.github.io/FreshRSS/en/developers/06_GoogleReader_API.html) bridge**, allow netnewswire support for nextcloud news backend
 	- [freshrss greader api doc](https://freshrss.github.io/FreshRSS/en/developers/06_GoogleReader_API.html)
 	- [freshrss greader api implementation](https://github.com/FreshRSS/FreshRSS/blob/edge/p/api/greader.php#L184) (use this i think)
+	- [nextcloud news api v1.3](https://nextcloud.github.io/news/api/api-v1-3/)

@@ -1,9 +1,10 @@
-package main
+package handlers
 
 import (
 	"encoding/json"
 	"fmt"
-	"io"
+	"freshnews/nc"
+	"freshnews/utils"
 	"net/http"
 	"strconv"
 )
@@ -53,33 +54,6 @@ s=feed/00157a17b192950b65be3791
     }
 */
 
-type ncItem struct {
-	ID               int    `json:"id"`
-	Guid             string `json:"guid"`
-	GuidHash         string `json:"guidHash"`
-	Url              string `json:"url"`
-	Title            string `json:"title"`
-	Author           string `json:"author"`
-	PubDate          int    `json:"pubDate"`
-	UpdatedDate      int    `json:"updatedDate"`
-	Body             string `json:"body"`
-	EnclosureMime    string `json:"enclosureMime"`
-	EnclosureLink    string `json:"enclosureLink"`
-	MediaThumbnail   string `json:"mediaThumbnail"`
-	MediaDescription string `json:"mediaDescription"`
-	FeedId           int    `json:"feedId"`
-	Unread           bool   `json:"unread"`
-	Starred          bool   `json:"starred"`
-	LastModified     int    `json:"lastModified"`
-	Rtl              bool   `json:"rtl"`
-	Fingerprint      string `json:"fingerprint"`
-	ContentHash      string `json:"contentHash"`
-}
-
-type ncItemResponse struct {
-	Items []ncItem `json:"items"`
-}
-
 type frItem struct {
 	ID string `json:"id"`
 }
@@ -88,42 +62,11 @@ type frItemsResponse struct {
 	Items []frItem `json:"itemRefs"`
 }
 
-func getNCItems(count int, since int, ignoreRead bool) ([]ncItem, error) {
-	path := ""
-	if since == 0 {
-		path += "/items?batchSize=" + strconv.Itoa(count)
-		if ignoreRead {
-			path += "&getRead=false"
-		}
-	} else {
-		path += "/items/updated?lastModified=" + strconv.Itoa(since)
-	}
-
-	res, err := NcGetReq(path)
-	if err != nil {
-		return nil, err
-	}
-
-	var ncResponse ncItemResponse
-	err = json.Unmarshal(res, &ncResponse)
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-
-	items := ncResponse.Items
-	if len(items) > count {
-		items = items[:count]
-	}
-
-	return items, nil
-}
-
 // e.g. /api/greader.php/reader/api/0/stream/items/ids?n=1000&output=json&s=user/-/state/com.google/reading-list&xt=user/-/state/com.google/read
 func GetStreamItemsIds(w http.ResponseWriter, r *http.Request) {
 	outputFormat := r.URL.Query().Get("output")
 	if outputFormat != "json" {
-		notImplemented(w, r)
+		NotImplemented(w, r)
 		return
 	}
 
@@ -165,10 +108,10 @@ func GetStreamItemsIds(w http.ResponseWriter, r *http.Request) {
 	// continuationToken := r.URL.Query().Get("c") // used to get next page if exists
 
 	streamIdInfos := r.URL.Query().Get("s") // this appears to only be reading-list or starred
-	ncItems := []ncItem{}
+	ncItems := []nc.NcItem{}
 	switch streamIdInfos {
 	case "user/-/state/com.google/reading-list":
-		items, err := getNCItems(count, startTime, ignoreRead)
+		items, err := nc.GetNCItems(count, startTime, ignoreRead)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -178,7 +121,7 @@ func GetStreamItemsIds(w http.ResponseWriter, r *http.Request) {
 	case "user/-/state/com.google/starred":
 		// TODO
 	default:
-		notImplemented(w, r)
+		NotImplemented(w, r)
 		return
 	}
 
@@ -198,6 +141,5 @@ func GetStreamItemsIds(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("Returning", CapString(jsonResponse, 500))
-	io.Writer.Write(w, jsonResponse)
+	utils.WriteBytes(w, jsonResponse, false)
 }

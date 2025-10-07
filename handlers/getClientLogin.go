@@ -1,8 +1,8 @@
-package main
+package handlers
 
 import (
 	"fmt"
-	"io"
+	"freshnews/utils"
 	"net/http"
 )
 
@@ -21,7 +21,7 @@ func GetClientLogin(w http.ResponseWriter, r *http.Request) {
 	// check if email and passwd are valid
 	if email == "zach" && passwd == "password" {
 		// if valid, return a valid token
-		io.WriteString(w, "SID=zach/{some id code}\nLSID=null\nAuth=zach/{some id code}")
+		utils.WriteString(w, "SID=zach/{some id code}\nLSID=null\nAuth=zach/{some id code}", false)
 		fmt.Println("\tsuccess", email, passwd)
 	}
 }

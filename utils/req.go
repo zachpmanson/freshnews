@@ -1,14 +1,15 @@
-package main
+package utils
 
 import (
 	"fmt"
+	"freshnews/config"
 	"io"
 	"net/http"
 )
 
 func NcGetReq(path string) ([]byte, error) {
 
-	fullUrl := BaseUrl + path
+	fullUrl := config.BaseUrl + path
 	client := http.Client{}
 	fmt.Println("--> GET", path)
 	req, err := http.NewRequest("GET", fullUrl, nil)
@@ -20,7 +21,7 @@ func NcGetReq(path string) ([]byte, error) {
 	// fmt.Println("Auth", "Basic", Credentials)
 	req.Header = http.Header{
 		"Content-Type":  {"application/json"},
-		"Authorization": {"Basic " + Credentials},
+		"Authorization": {"Basic " + config.Credentials},
 	}
 
 	res, err := client.Do(req)
