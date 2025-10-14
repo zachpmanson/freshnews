@@ -111,7 +111,7 @@ func GetStreamItemsIds(w http.ResponseWriter, r *http.Request) {
 	ncItems := []nc.NcItem{}
 	switch streamIdInfos {
 	case "user/-/state/com.google/reading-list":
-		items, err := nc.GetItems(count, startTime, ignoreRead)
+		items, err := nc.GetItems(count, startTime, ignoreRead, nc.TypeAll)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -119,14 +119,23 @@ func GetStreamItemsIds(w http.ResponseWriter, r *http.Request) {
 		ncItems = items
 		fmt.Println("Got NC Items", len(ncItems))
 	case "user/-/state/com.google/starred":
-		// TODO
+		items, err := nc.GetItems(count, startTime, ignoreRead, nc.TypeStarred)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		ncItems = items
+		fmt.Println("Got NC Items", len(ncItems))
+
 	default:
 		NotImplemented(w, r)
 		return
 	}
 
 	fmt.Println("Returning NC Items", len(ncItems))
-	response := frItemsResponse{}
+	response := frItemsResponse{
+		Items: []frItem{},
+	}
 
 	for _, ncItem := range ncItems {
 		// fmt.Println("NC Item", ncItem.ID)
