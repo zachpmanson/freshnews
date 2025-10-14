@@ -34,17 +34,41 @@ type NcItemResponse struct {
 	Items []NcItem `json:"items"`
 }
 
-func GetItems(count int, since int, ignoreRead bool) ([]NcItem, error) {
+type ItemType string
+
+const (
+	TypeFeed    ItemType = "feed"
+	TypeFolder  ItemType = "folder"
+	TypeStarred ItemType = "starred"
+	TypeAll     ItemType = "all"
+)
+
+var stateName = map[ItemType]int{
+	TypeFeed:    0,
+	TypeFolder:  1,
+	TypeStarred: 2,
+	TypeAll:     3,
+}
+
+func GetItems(count int, since int, ignoreRead bool, itemType ItemType) ([]NcItem, error) {
 	path := ""
+	args := [][2]string{
+		{"type", strconv.Itoa(stateName[itemType])},
+	}
 	if since == 0 {
-		path += "/items?"
-		path += "batchSize=" + strconv.Itoa(count) + "&"
+		path = "/items"
+		args = append(args, [2]string{"limit", strconv.Itoa(count)})
+
 		if ignoreRead {
-			path += "getRead=false&"
+			args = append(args, [2]string{"getRead", "false"})
 		}
 	} else {
-		path += "/items/updated?lastModified=" + strconv.Itoa(since)
+		path = "/items/updated"
+		args = append(args, [2]string{"lastModified", strconv.Itoa(since)})
 	}
+	path += "?" + utils.ToQueryParams(
+		args,
+	)
 
 	res, err := utils.NcGetReq(path)
 	if err != nil {
@@ -59,7 +83,7 @@ func GetItems(count int, since int, ignoreRead bool) ([]NcItem, error) {
 	}
 
 	items := ncResponse.Items
-	if len(items) > count {
+	if count >= 0 && len(items) > count {
 		items = items[:count]
 	}
 
