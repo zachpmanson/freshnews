@@ -50,7 +50,7 @@ func GetStreamItemContents(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	feedItems, err := nc.GetItems(-1, 0, false)
+	feedItems, err := nc.GetItems(-1, 0, false, nc.TypeAll)
 	if err != nil {
 		utils.WriteError(w, err, 500)
 		return
@@ -75,9 +75,9 @@ func GetStreamItemContents(w http.ResponseWriter, r *http.Request) {
 			Title:         item.Title,
 			Canonical:     []link{{Href: item.Url}},
 			Alternate:     []link{{Href: item.Url}},
-			Categories:    []string{"user/-/state/com.google/reading-list", "user/-/label/m"},
+			Categories:    []string{"user/-/state/com.google/reading-list", "user/-/label/m"}, // TODO don't hardcode these
 			Origin: Origin{
-				StreamID: fmt.Sprintf("feed/%d", item.FeedId),
+				StreamID: "feed/" + item.Url,
 				HTMLUrl:  item.Url,
 				Title:    item.Title,
 			},
@@ -94,7 +94,7 @@ func GetStreamItemContents(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.WriteBytes(w, out, false)
+	utils.WriteBytes(w, out, true)
 	//		utils.WriteString(w, `{
 	//		"id": "user/-/state/com.google/reading-list",
 	//		"updated": 1716875047,
