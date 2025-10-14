@@ -1,0 +1,20 @@
+meta {
+  name: fr tags
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{frUrl}}/reader/api/0/tag/list?output=json
+  body: none
+  auth: none
+}
+
+params:query {
+  output: json
+  ~xt: user/-/state/com.google/read
+}
+
+headers {
+  Authorization: GoogleLogin auth={{frAuth}}
+}

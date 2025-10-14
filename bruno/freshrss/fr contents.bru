@@ -1,0 +1,26 @@
+meta {
+  name: fr contents
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{frUrl}}/reader/api/0/stream/items/contents
+  body: formUrlEncoded
+  auth: none
+}
+
+headers {
+  Authorization: GoogleLogin auth={{frAuth}}
+}
+
+body:text {
+  T=Not Implemented!
+  &output=json&i=tag:google.com,2005:reader/item/23ee&i=tag:google.com,2005:reader/item/2811&i=tag:google.com,2005:reader/item/25b3&i=tag:google.com,2005:reader/item/253b&i=tag:google.com,2005:reader/item/2339&i=tag:google.com,2005:reader/item/2749&i=tag:google.com,2005:reader/item/27d7&i=tag:google.com,2005:reader/item/2609&i=tag:google.com,2005:reader/item/24be&i=tag:google.com,2005:reader/item/232c
+}
+
+body:form-urlencoded {
+  T: Not Implemented!
+  output: json
+  i: tag:google.com,2005:reader/item/1760447013744804
+}
