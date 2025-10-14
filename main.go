@@ -18,7 +18,7 @@ func dump(f HttpHandler) HttpHandler {
 
 		dump, _ := httputil.DumpRequest(r, true)
 		fmt.Println("\n\n\n==========================")
-		fmt.Println(utils.CapString(dump, 500))
+		fmt.Println(utils.CapString(dump, 1000))
 
 		f(w, r) // call the original function
 	}
@@ -35,9 +35,10 @@ func main() {
 	port := flag.Int("port", 8080, "Port to listen on")
 	flag.Parse()
 	// have seen netnewswire use
+	attachHandler("/", handlers.NotImplemented)
 	attachHandler("/api/greader.php/accounts/ClientLogin", handlers.GetClientLogin)
-	attachHandler("/api/greader.php/reader/api/0/stream/items/ids", handlers.GetStreamItemsIds)
-	attachHandler("/api/greader.php/reader/api/0/subscription/list", handlers.GetSubscriptionsList) // done maybe?
+	attachHandler("/api/greader.php/reader/api/0/stream/items/ids", handlers.GetStreamItemsIds) // TODO still not visible in NNN, something wrong with IDs?
+	attachHandler("/api/greader.php/reader/api/0/subscription/list", handlers.GetSubscriptionsList)
 	attachHandler("/api/greader.php/reader/api/0/subscription/edit", handlers.NotImplemented)
 	attachHandler("/api/greader.php/reader/api/0/subscription/quickadd", handlers.NotImplemented)
 	attachHandler("/api/greader.php/reader/api/0/stream/items/contents", handlers.GetStreamItemContents)
